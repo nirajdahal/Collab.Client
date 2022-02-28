@@ -1,0 +1,86 @@
+<div class="da-login">
+  <d-toast [value]="toastMessage"></d-toast>
+  <div class="da-login-form">
+    <div class="da-login-logo-wrapper">
+      <div class="da-login-logo">
+        <span class="da-logo-devui">
+          <img src="../../../../../assets/devui-logo.svg" alt="DevUI-Logo" />
+        </span>
+        <span class="da-text">DevUI</span>
+      </div>
+      <span class="da-coperation">
+        DevUI Design Presented
+      </span>
+    </div>
+    <div class="da-login-ways">
+      
+      <ng-container >
+        <ng-template [ngTemplateOutlet]="loginWithEmail"></ng-template>
+      </ng-container>
+    </div>
+    <div class="da-other">
+      
+      <a routerLink="/register">Sign Up</a>
+    </div>
+  </div>
+
+  
+
+  <da-footer></da-footer>
+</div>
+
+
+<ng-template #loginWithEmail>
+  <form dForm [layout]="horizontalLayout" [labelSize]="'sm'" ngForm (dSubmit)="onClick()">
+    <d-form-item>
+      <d-form-label>Email：</d-form-label>
+      <d-form-control>
+        <div>
+          <input
+            dTextInput
+            autocomplete="off"
+            name="userEmail"
+            placeholder="admin@devui.com"
+            [(ngModel)]="formData.userEmail"
+            [dValidateRules]="formRules.emailRules"
+          />
+        </div>
+      </d-form-control>
+    </d-form-item>
+    <d-form-item>
+      <d-form-label>Password：</d-form-label>
+      <d-form-control [suffixTemplate]="suffixTemplate">
+        <input
+          dTextInput
+          [type]="showPassword ? 'text' : 'password'"
+          name="emailPassword"
+          placeholder="devuiadmin"
+          [(ngModel)]="formData.userEmailPassword"
+          
+          [dValidateRules]="formRules.passwordRules"
+        />
+      </d-form-control>
+    </d-form-item>
+    <div class="da-login-options">
+      <div class="da-auto-login">
+        <d-toggle [checked]="true"></d-toggle>
+        <span class="da-auto-login-text" style="margin-left: 8px">
+          Remember me
+        </span>
+      </div>
+      <span
+        ><a href="#">Forgot Password?</a></span
+      >
+    </div>
+    <button class="da-submit-button" dFormSubmit>
+      Submit
+    </button>
+  </form>
+</ng-template>
+
+<ng-template #suffixTemplate>
+  <i
+    [class]="showPassword ? 'icon icon-preview' : 'icon icon-preview-forbidden'"
+    (click)="showPassword = !showPassword"
+  ></i>
+</ng-template>
