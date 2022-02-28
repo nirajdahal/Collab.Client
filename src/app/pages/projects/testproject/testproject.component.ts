@@ -1,4 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ProjectService } from 'src/app/@core/services/projects/project.service';
+import { TicketService } from 'src/app/@core/services/tickets/ticket.service';
+import { IProjectStatus } from 'src/app/@shared/models/projects/project';
 
 @Component({
   selector: 'app-testproject',
@@ -62,15 +65,31 @@ export class TestprojectComponent implements OnInit {
     },
   ];
 
+
+  convertAPIDataIntoList(){
+
+  }
+
+
   onSearch(term) {
     console.log(term);
   }
   showOriginPlaceholder = false;
   switchWhileCrossEdge = false;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  projectStatusList: IProjectStatus[]=[]
+
+  constructor(private cdr: ChangeDetectorRef, private ticketService: TicketService, private projectService: ProjectService) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
+    this.ticketService.getAllTicketsWithProjectStatus().subscribe(x => {
+      console.log(x)
+    });
+    this.projectService.getAllProjectStatusName().subscribe(x => {
+      this.projectStatusList = x
+    })
+    
+    
   }
 
   onDrop(e: any, targetArray: Array<any>) {

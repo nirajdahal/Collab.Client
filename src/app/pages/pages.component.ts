@@ -11,7 +11,8 @@ import { DaScreenMediaQueryService } from '../@shared/layouts/da-grid';
 import { SideMenuComponent } from '../@shared/components/side-menu/side-menu.component';
 import { Theme } from 'ng-devui/theme';
 import { ProjectService } from '../@core/services/projects/project.service';
-import { ProjectDto } from '../@shared/models/projects/project';
+import { IProjectDto } from '../@shared/models/projects/project';
+import { TicketService } from '../@core/services/tickets/ticket.service';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class PagesComponent implements OnInit {
     private mediaQueryService: DaScreenMediaQueryService,
     private render2: Renderer2,
     private projectService: ProjectService
+    
 
   ) {
     this.personalizeService.initTheme();
@@ -70,7 +72,7 @@ export class PagesComponent implements OnInit {
 
 
 
-projectList : ProjectDto[] = []
+projectList : IProjectDto[] = []
   ngOnInit() {
     
     this.personalizeService.getUiTheme()!.subscribe((theme) => {

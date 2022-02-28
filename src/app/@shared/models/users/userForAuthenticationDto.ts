@@ -9,3 +9,4 @@ export interface LoginResponse
     token: string
     isAuthenticationSuccesfull:boolean
 }
+

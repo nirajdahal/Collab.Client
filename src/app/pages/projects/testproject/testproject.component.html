@@ -1,7 +1,5 @@
 <div>
   <d-search [size]="'sm'" (searchFn)="onSearch($event)"></d-search>
-  
-
 </div>
 
 <div class="drop-row devui-scrollbar" dDropScrollEnhanced [direction]="'h'"
@@ -10,11 +8,7 @@
     <div class="card card-outline-primary mb-3" dDroppable [dropScope]="'mutiple-group'"
       (dropEvent)="onDrop($event, list.list)" [switchWhileCrossEdge]="switchWhileCrossEdge">
       <div class="card-header">
-
-
-
         <div>
-
           <ul class="menu">
             <li class="menu-item">
               <span class="item-title">
@@ -23,7 +17,6 @@
               </span>
               <d-badge class="right-badge" [count]="27"> </d-badge>
             </li>
-
           </ul>
         </div>
 
@@ -43,11 +36,11 @@
                 (toggleEvent)="onToggle($event)">
                 <p><small>2021/02/28</small>
                   &nbsp;&nbsp;&nbsp;<button>
-                    <d-avatar [width]="18" [height]="18" dDropDownToggle></d-avatar>
+                    <d-avatar [width]="18" [height]="18" dDropDownToggle dTooltip [content]="'Click to show Assigned User!'"></d-avatar>
                     
                   </button>
-                  &nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid rgb(153, 41, 41);"><b>A</b></button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid rgb(14, 95, 88);"><b>B</b></button>
+                  &nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid rgb(153, 41, 41);" dTooltip [content]="'Add Task!'"><b>A</b></button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid rgb(14, 95, 88);" dTooltip [content]="'Add Task!'"><b>B</b></button>
                 </p>
                 <!-- user drop down -->
                 <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar" role="menu">
@@ -65,8 +58,8 @@
 
 
             <div class="btn-group button-combo">
-              <d-button icon="icon-edit" bsStyle="text-dark" title="edit"></d-button>
-              <d-button icon="icon-delete" bsStyle="text-dark" title="delete"></d-button>
+              <d-button icon="icon-edit" bsStyle="text-dark" title="edit" dTooltip [content]="'Edit Task!'"></d-button>
+              <d-button icon="icon-delete" bsStyle="text-dark" title="delete" dTooltip [content]="'Delete Task!'"></d-button>
               
             </div>
           </li>

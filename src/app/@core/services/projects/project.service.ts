@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { ProjectDto } from 'src/app/@shared/models/projects/project';
+import { IProjectDto, IProjectStatus } from 'src/app/@shared/models/projects/project';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -17,6 +17,15 @@ export class ProjectService {
   public getAllProjectsName = () => {
 
     
-    return this._http.get<ProjectDto[]>(this.urlAddress + "project");
+    return this._http.get<IProjectDto[]>(this.urlAddress + "project");
   }
+
+  public getAllProjectStatusName = () => {
+
+    let params = new HttpParams();
+    params  = params.append('id', "3");
+    return this._http.get<IProjectStatus[]>(this.urlAddress + "project/projectstatus", {params });
+  }
+
+
 }
