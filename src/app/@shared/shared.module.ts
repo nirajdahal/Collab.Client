@@ -49,6 +49,8 @@ const DEVUI_MODULES = [
   TabsModule,
   TextInputModule,
   ToggleModule,
+  TooltipModule,
+
   ButtonModule,
   DrawerModule,
   BreadcrumbModule,
