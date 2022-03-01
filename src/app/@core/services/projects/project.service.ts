@@ -20,10 +20,10 @@ export class ProjectService {
     return this._http.get<IProjectDto[]>(this.urlAddress + "project");
   }
 
-  public getAllProjectStatusName = () => {
+  public getAllProjectStatusName = (id) => {
 
     let params = new HttpParams();
-    params  = params.append('id', "3");
+    params  = params.append('id', id.toString());
     return this._http.get<IProjectStatus[]>(this.urlAddress + "project/projectstatus", {params });
   }
 

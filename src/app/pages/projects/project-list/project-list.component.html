@@ -1,0 +1,6 @@
+<p>project-list works!</p>
+<ul>
+    <li *ngFor="let project of projectList">{{project.name}}
+        <button><a routerLink="/pages/projects/test/{{project.id}}">My tickets</a></button>
+    </li>
+</ul>

@@ -121,7 +121,7 @@ projectList : IProjectDto[] = []
         a.push(
             {
               title: e.name ,
-              link: '/pages/projects/test?id='+ e.id,
+              link: '/pages/projects/test?id='+ e.id.toString(),
             }
             )});
       return a
@@ -142,18 +142,30 @@ projectList : IProjectDto[] = []
         ],
         link: '/pages/getting-started',
         menuIcon: 'icon icon-console',
+      },
+      {
+        title: 'Project',
+        open: true,
+        children: [
+          {
+            title: 'Sample Page',
+            link: '/pages/projects/list',
+          },
+        ],
+        link: '/pages/projects',
+        menuIcon: 'icon icon-console',
       }
     ]
   
-      this.menu.push({
+      // this.menu.push({
 
-        title: 'Projects',
-        open: false,
-        children: this.loopchildren(),
-        menuIcon: 'icon icon-console',
-        link: '/pages/projects'
+      //   title: 'Projects',
+      //   open: false,
+      //   children: this.loopchildren(),
+      //   menuIcon: 'icon icon-console',
+      //   link: '/pages/projects'
         
-      })
+      // })
    
   }
 

@@ -1,21 +1,25 @@
-<div>
-  <d-search [size]="'sm'" (searchFn)="onSearch($event)"></d-search>
+<div class="container">
+  <div class="row">
+    <d-search style="width: 200px" [size]="'sm'" [autoFocus]="true" (searchFn)="onSearch($event)"></d-search>
+
+  </div>
+
 </div>
 
 <div class="drop-row devui-scrollbar" dDropScrollEnhanced [direction]="'h'"
   [dropScrollScope]="['mutiple-group', 'drag-follow']">
-  <div class="drop-col" *ngFor="let list of lists">
+  <div class="drop-col" *ngFor="let dropableTicketList of dashboardModelData">
     <div class="card card-outline-primary mb-3" dDroppable [dropScope]="'mutiple-group'"
-      (dropEvent)="onDrop($event, list.list)" [switchWhileCrossEdge]="switchWhileCrossEdge">
+      (dropEvent)="onDrop($event, dropableTicketList.dropableTicketList)" [switchWhileCrossEdge]="switchWhileCrossEdge">
       <div class="card-header">
         <div>
           <ul class="menu">
             <li class="menu-item">
               <span class="item-title">
                 <d-button icon="icon-add" bsStyle="text-dark" title="add" dTooltip [content]="'Add Task!'"></d-button>
-                &nbsp;&nbsp;{{ list.name }}
+                &nbsp;&nbsp;{{ dropableTicketList.name }}
               </span>
-              <d-badge class="right-badge" [count]="27"> </d-badge>
+              <d-badge class="right-badge" [count]="dropableTicketList.count"> </d-badge>
             </li>
           </ul>
         </div>
@@ -24,11 +28,11 @@
       <div class="card-block">
         <ul class="list-group drop-el devui-scrollbar" dSortable dDropScrollEnhanced [direction]="'v'"
           [responseEdgeWidth]="'20px'" [dropScrollScope]="'mutiple-group'">
-          <li *ngFor="let item of list.list" class="list-group-item over-flow-ellipsis" dDraggable
+          <li *ngFor="let item of dropableTicketList.dropableTicketList" class="list-group-item over-flow-ellipsis" dDraggable
             [dragScope]="'mutiple-group'" [dragHandleClass]="'drag-handle'" [originPlaceholder]="{
               show: showOriginPlaceholder,
               removeDelay: 300
-            }" [dragData]="{ item: item, parent: list.list }" [enableDragFollow]="true"
+            }" [dragData]="{ item: item, parent: dropableTicketList.dropableTicketList }" [enableDragFollow]="true"
             (click)="batchSelectCheck($event, item)" batchDrag [batchDragActive]="item.isSelected"
             (batchDragActiveEvent)="batchSelect(item)" [ngClass]="{ selected: item.isSelected }">
             <span>
@@ -39,15 +43,19 @@
                     <d-avatar [width]="18" [height]="18" dDropDownToggle dTooltip [content]="'Click to show Assigned User!'"></d-avatar>
                     
                   </button>
-                  &nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid rgb(153, 41, 41);" dTooltip [content]="'Add Task!'"><b>A</b></button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid rgb(14, 95, 88);" dTooltip [content]="'Add Task!'"><b>B</b></button>
+                  &nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1.5px solid" [style.border-color]="item.ticketPriority.themeColor" dTooltip [content]="item.ticketPriority.name + ' Priority'"><b>{{item.ticketPriority.name | slice:0:1}}</b></button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid" [style.border-color]="item.ticketType.themeColor" dTooltip [content]="item.ticketType.name"><b>{{item.ticketType.name | slice:0:1}}</b></button>
                 </p>
                 <!-- user drop down -->
                 <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar" role="menu">
-                  <li role="menuitem" *ngFor="let item of items">
+                  <li role="menuitem" *ngFor="let user of item.assignedDevelopers">
                     <a class="devui-dropdown-item">
-                      <span class="icon-plan" style="padding-right: 5px; vertical-align: middle"></span>
-                      {{ item }}
+                      <span class="icon-assign" style="padding-right: 5px; vertical-align: middle"></span>
+                      {{ user.name }}
+                    </a>
+                    <a *ngIf="user == null" class="devui-dropdown-item">
+                      <span class="icon-assign" style="padding-right: 5px; vertical-align: middle"></span>
+                      No user assigned
                     </a>
                   </li>
                 </ul>

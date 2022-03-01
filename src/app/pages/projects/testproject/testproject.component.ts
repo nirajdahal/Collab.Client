@@ -1,7 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/@core/services/projects/project.service';
 import { TicketService } from 'src/app/@core/services/tickets/ticket.service';
 import { IProjectStatus } from 'src/app/@shared/models/projects/project';
+import { IPagination, ITicket, ITicketPriority, ITicketStatus, ITicketType, TicketSpecParam } from 'src/app/@shared/models/tickets/ticket';
+import { IUser } from 'src/app/@shared/models/users/user';
 
 @Component({
   selector: 'app-testproject',
@@ -9,88 +12,121 @@ import { IProjectStatus } from 'src/app/@shared/models/projects/project';
   styleUrls: ['./testproject.component.scss']
 })
 export class TestprojectComponent implements OnInit {
+  constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef, private ticketService: TicketService, private projectService: ProjectService) {}
   
-  //user button
-  items: any = ['New', 'Delete', 'Item 1', 'Item 2', 'Item 3', 'Item 4'];
+    
+  currentProjectIdSnap : number = 1;
+  ngOnInit(): void {
+ 
+    this.currentProjectIdSnap = parseInt(this.route.snapshot.paramMap.get("id"))
+    this.ticketSpecParam.projectId = this.currentProjectIdSnap;
+    this.getAllTicketList();
+    
+  }
+
+
+  getAllTicketList(){
+    this.ticketService.getAllTicketsWithProjectStatus(this.ticketSpecParam).subscribe(t => {
+      this.ticketsFromAPI = t;
+      this.ticketSpecParam.projectId = this.currentProjectIdSnap;
+      this.getProjStatusList();
+     
+    });
+  }
+
+  getProjStatusList(){
+    this.projectService.getAllProjectStatusName(this.currentProjectIdSnap).subscribe(ps => {
+      
+      this.projectStatusListFromAPI = ps;
+      this.convertAPIDataIntoList(ps);
+    }) 
+  }
+  
+  ticketSpecParam: TicketSpecParam =  {
+    
+    sort : "DateAsc",
+    pageIndex : 1,
+    pageSize : 50
+}
+
+  // Dahboard Condfiguration
+  
+  projectStatusListFromAPI: IProjectStatus[]=[] 
+  ticketsFromAPI: IPagination<ITicket> = null ;
+   dashboardModelData: IDropableDahboardModel[]=[];
+
+   convertAPIDataIntoList(projectStatus : IProjectStatus[]){
+
+    projectStatus.forEach(s => {
+
+      let convertedList = this.converTicketListIntoDroppableModel(s.id)
+      this.dashboardModelData.push({
+        name: s.name,
+        dropableTicketList: convertedList,
+        count: convertedList.length
+      })
+    });
+  }
+
+  getTicketForProjectStatusId(id : number)  {
+
+    
+    let filteredTicketList=  this.ticketsFromAPI.data.filter(function(ticket) {
+      return ticket.projectStatus.id == id;
+    });
+    
+    return filteredTicketList
+
+  }
+
+  mapTicketToIDropabaleList(tickets: ITicket[]) : IDropableListModel[]{
+    let dropableModelData: IDropableListModel[] = [];
+    
+    tickets.forEach(ticket => {
+      let dropableModel: IDropableListModel = new IDropableListModel();
+      
+      dropableModel.description = ticket.description;
+      dropableModel.ticketType = ticket.ticketType ;
+      dropableModel.ticketPriority = ticket.ticketPriority;
+      dropableModel.ticketStatus= ticket.ticketStatus;
+      dropableModel.assignedDevelopers = ticket.assignedDevelopers;
+      dropableModel.projectStatus = ticket.projectStatus;
+      dropableModel.createdAt = ticket.createdAt;
+      dropableModel.updatedAt = ticket.updatedAt;
+      dropableModel.id = ticket.id;
+      dropableModel.name = ticket.name;
+      dropableModel.isSelected = false;
+
+      dropableModelData.push(dropableModel);
+    });
+    return dropableModelData;
+  }
+
+  converTicketListIntoDroppableModel(id: number){
+      let filteredTicket = this.getTicketForProjectStatusId(id);
+      let dropableModelData: IDropableListModel[] = this.mapTicketToIDropabaleList(filteredTicket);
+      return dropableModelData;
+  }
+
+  // Dashboard Configuration End
+
+
+
+  
 
   onToggle(event) {
     console.log(event);
   }
   //user button end
   
-  lists = [
-    {
-      name: ' Todo',
-      list: [
-        { name: 'Visual Studio Code isual Studio Cod isual Studio Cod Visual Studi€o Code isual Studio Cod isual Studio Cod', isSelected: false },
-        { name: 'WebStorm', isSelected: false },
-        { name: 'Sublime Text', isSelected: false },
-        { name: 'Atom', isSelected: false },
-        { name: 'Notepad++', isSelected: false },
-      ],
-    },
-    {
-      name: 'Browser',
-      list: [
-        { name: 'Chrome', isSelected: false },
-        { name: 'Firefox', isSelected: false },
-        { name: 'Opera', isSelected: false },
-        { name: 'Edge', isSelected: false },
-        { name: 'Internet Explorer', isSelected: false },
-        { name: 'Safari', isSelected: false },
-      ],
-    },
-    {
-      name: 'OS',
-      list: [
-        { name: 'Linux', isSelected: false },
-        { name: 'Windows', isSelected: false },
-        { name: 'Mac OS', isSelected: false },
-        { name: 'DOS', isSelected: false },
-        { name: 'Chrome OS', isSelected: false },
-      ],
-    },
-    {
-      name: 'Mobile OS',
-      list: [
-        { name: 'Android', isSelected: false },
-        { name: 'IOS', isSelected: false },
-        { name: 'BlackBerry', isSelected: false },
-        { name: 'Symbian', isSelected: false },
-      ],
-    },
-    {
-      name: 'Whatever',
-      list: [],
-    },
-  ];
-
-
-  convertAPIDataIntoList(){
-
-  }
-
-
+ 
   onSearch(term) {
     console.log(term);
   }
   showOriginPlaceholder = false;
   switchWhileCrossEdge = false;
 
-  projectStatusList: IProjectStatus[]=[]
-
-  constructor(private cdr: ChangeDetectorRef, private ticketService: TicketService, private projectService: ProjectService) {}
-  ngOnInit(): void {
-
-    this.ticketService.getAllTicketsWithProjectStatus().subscribe(x => {
-      console.log(x)
-    });
-    this.projectService.getAllProjectStatusName().subscribe(x => {
-      this.projectStatusList = x
-    })
-    
-    
-  }
+  
 
   onDrop(e: any, targetArray: Array<any>) {
     if (e.dropOnOrigin) {
@@ -148,5 +184,31 @@ export class TestprojectComponent implements OnInit {
       this.batchSelect(item);
     }
   }
+
+}
+
+
+export class IDropableDahboardModel{
+
+  name: string;
+  count: number ;
+  dropableTicketList: IDropableListModel[]
+
+
+}
+
+export class IDropableListModel implements ITicket{
+  description: string;
+  ticketType: ITicketType;
+  ticketPriority: ITicketPriority;
+  ticketStatus: ITicketStatus;
+  assignedDevelopers: IUser[];
+  projectStatus: IProjectStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  id: number;
+  name: string;
+  isSelected:boolean = false;
+  
 
 }
