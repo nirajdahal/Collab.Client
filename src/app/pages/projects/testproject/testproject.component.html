@@ -1,10 +1,38 @@
 <div class="container">
-  <div class="row">
-    <d-search style="width: 200px" [size]="'sm'" [autoFocus]="true" (searchFn)="onSearch($event)"></d-search>
+  <da-layout-row>
+    <da-col-item [daXs]="6" [daMm]="12">
+      <d-search [size]="'sm'" [(ngModel)]="searchWord" [autoFocus]="true" (searchFn)="onSearch()">
+      </d-search>
+    </da-col-item>
+    <da-col-item [daXs]="6" [daMm]="12">
 
-  </div>
 
+      <d-editable-select [(ngModel)]="selectTicketTypeName" [searchFn]="setupTicketTypeOnDropDown" name="multiple-auto"
+        placeholder="Filter: Type">
+      </d-editable-select>
+    </da-col-item>
+    <da-col-item [daXs]="6" [daMm]="12">
+
+
+      <d-editable-select [(ngModel)]="selectTicketPriorityName" [searchFn]="setupTicketPriorityOnDropDown"
+        name="multiple-auto" placeholder="Filter: Priority">
+      </d-editable-select>
+
+
+    </da-col-item>
+    <da-col-item [daXs]="6" [daMm]="12">
+      <section>
+
+        <d-button id="primaryBtn" style="margin-right: 8px" (click)="applyFilter()">Apply Filter</d-button>
+        <d-button id="danger" style="margin-right: 8px" (click)="clearFilter()">Clear Filter</d-button>
+      </section>
+    </da-col-item>
+  </da-layout-row>
 </div>
+
+
+
+
 
 <div class="drop-row devui-scrollbar" dDropScrollEnhanced [direction]="'h'"
   [dropScrollScope]="['mutiple-group', 'drag-follow']">
@@ -28,23 +56,29 @@
       <div class="card-block">
         <ul class="list-group drop-el devui-scrollbar" dSortable dDropScrollEnhanced [direction]="'v'"
           [responseEdgeWidth]="'20px'" [dropScrollScope]="'mutiple-group'">
-          <li *ngFor="let item of dropableTicketList.dropableTicketList" class="list-group-item over-flow-ellipsis" dDraggable
-            [dragScope]="'mutiple-group'" [dragHandleClass]="'drag-handle'" [originPlaceholder]="{
+          <li *ngFor="let item of dropableTicketList.dropableTicketList" class="list-group-item over-flow-ellipsis"
+            dDraggable [dragScope]="'mutiple-group'" [dragHandleClass]="'drag-handle'" [originPlaceholder]="{
               show: showOriginPlaceholder,
               removeDelay: 300
             }" [dragData]="{ item: item, parent: dropableTicketList.dropableTicketList }" [enableDragFollow]="true"
             (click)="batchSelectCheck($event, item)" batchDrag [batchDragActive]="item.isSelected"
             (batchDragActiveEvent)="batchSelect(item)" [ngClass]="{ selected: item.isSelected }">
             <span>
-              <div class="btn-group g-dropdown" dDropDown appendToBody [appendToBodyDirections]="['leftDown', 'leftUp']"
-                (toggleEvent)="onToggle($event)">
-                <p><small>2021/02/28</small>
+              <div class="btn-group g-dropdown" dDropDown appendToBody
+                [appendToBodyDirections]="['leftDown', 'leftUp']">
+                <p><small>{{item.updatedAt | date:'mediumDate'}}</small>
                   &nbsp;&nbsp;&nbsp;<button>
-                    <d-avatar [width]="18" [height]="18" dDropDownToggle dTooltip [content]="'Click to show Assigned User!'"></d-avatar>
-                    
+                    <d-avatar [width]="18" [height]="18" dDropDownToggle dTooltip
+                      [content]="'Click to show Assigned User!'"></d-avatar>
+
                   </button>
-                  &nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1.5px solid" [style.border-color]="item.ticketPriority.themeColor" dTooltip [content]="item.ticketPriority.name + ' Priority'"><b>{{item.ticketPriority.name | slice:0:1}}</b></button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid" [style.border-color]="item.ticketType.themeColor" dTooltip [content]="item.ticketType.name"><b>{{item.ticketType.name | slice:0:1}}</b></button>
+                  &nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1.5px solid"
+                    [style.border-color]="item.ticketPriority.themeColor" dTooltip
+                    [content]="item.ticketPriority.name + ' Priority'"><b>{{item.ticketPriority.name |
+                      slice:0:1}}</b></button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<button style="border-radius: 50%; padding:0px 4px; border: 1px solid"
+                    [style.border-color]="item.ticketType.themeColor" dTooltip
+                    [content]="item.ticketType.name"><b>{{item.ticketType.name | slice:0:1}}</b></button>
                 </p>
                 <!-- user drop down -->
                 <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar" role="menu">
@@ -62,13 +96,14 @@
               </div>
             </span>
             <b class="ticketName">{{ item.name }}</b>
-            
+
 
 
             <div class="btn-group button-combo">
               <d-button icon="icon-edit" bsStyle="text-dark" title="edit" dTooltip [content]="'Edit Task!'"></d-button>
-              <d-button icon="icon-delete" bsStyle="text-dark" title="delete" dTooltip [content]="'Delete Task!'"></d-button>
-              
+              <d-button icon="icon-delete" bsStyle="text-dark" title="delete" dTooltip [content]="'Delete Task!'">
+              </d-button>
+
             </div>
           </li>
         </ul>

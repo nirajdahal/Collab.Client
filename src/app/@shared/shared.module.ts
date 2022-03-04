@@ -24,6 +24,7 @@ import {
   BreadcrumbModule,
   ModalModule,
   DragDropModule,
+  EditableSelectModule,
 } from 'ng-devui';
 import { I18nModule } from 'ng-devui/i18n';
 
@@ -50,7 +51,7 @@ const DEVUI_MODULES = [
   TextInputModule,
   ToggleModule,
   TooltipModule,
-
+  EditableSelectModule,
   ButtonModule,
   DrawerModule,
   BreadcrumbModule,

@@ -3,6 +3,10 @@
 .btn-group {
   margin-bottom: 20px;
 }
+
+.devui-search{
+  border-radius:0px ;
+}
 d-search {
 
   width: 200px;
@@ -57,7 +61,6 @@ d-avatar {
   overflow: hidden;
   
 }
-
 .col-sm-3 {
   float: left;
   position: relative;
@@ -67,17 +70,14 @@ d-avatar {
   min-width: 220px;
   width: 220px;
 }
-
 .list-group .list-group-item {
   padding: 0 16px;
 }
-
 .drop-row {
   white-space: nowrap;
   overflow-x: auto;
   margin-bottom: 10px;
 }
-
 .drop-col {
   margin-left: 10px;
   display: inline-block;
@@ -85,11 +85,9 @@ d-avatar {
   width: 220px;
   padding-bottom: 10px;
 }
-
 .drag-border {
   border: $devui-brand dashed 1px;
 }
-
 .drag-handle {
   cursor: move;
 
@@ -98,13 +96,11 @@ d-avatar {
   cursor: -moz-grab;
   cursor: -webkit-grab;
 }
-
 .drag-handle:active {
   cursor: grabbing;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
 }
-
 .drag-hint-border {
   border: $devui-success dashed 2px;
 }
@@ -112,8 +108,6 @@ d-avatar {
 .drag-over-border {
   border: $devui-warning dashed 2px;
 }
-
-
 
 .card {
   //border: 1px solid $devui-dividing-line;
@@ -190,6 +184,43 @@ margin-top: 5px;
 
 .container{
   margin: 10px
+}
+
+.title {
+  font-size: $devui-font-size-card-title;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.menu {
+  left: 0;
+  width: 200px;
+  background: $devui-global-bg;
+
+  &-item {
+    position: relative;
+    padding: 8px 16px;
+    display: block;
+
+    .right-badge {
+      position: absolute;
+      right: 20px;
+      top: 12px;
+    }
+
+    .item-title {
+      color: $devui-text;
+      font-size: $devui-font-size-card-title;
+    }
+  }
+
+  li:hover {
+    background-color: $devui-list-item-selected-bg;
+
+    .item-title {
+      color: $devui-list-item-hover-text;
+    }
+  }
 }
 
 @keyframes origin-placeholder-shrink-to-none {
