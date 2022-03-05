@@ -3,6 +3,26 @@
     <da-col-item [daXs]="6" [daMm]="12">
       <d-search [size]="'sm'" [(ngModel)]="searchWord" [autoFocus]="true" (searchFn)="onSearch()">
       </d-search>
+
+   
+      <section>
+        <div class="btn-group" dDropDown (toggleEvent)="onToggle($event)">
+          <a dDropDownToggle class="devui-dropdown-no-border devui-dropdown-origin">
+            <i class="icon icon-spread-info"></i> &nbsp; &nbsp;{{selectedSortingType}} 
+            <span class="icon-select-arrow"></span>
+          </a>
+      
+          <ul dDropDownMenu class="devui-dropdown-menu devui-scrollbar" role="menu">
+            
+            
+            <li *ngFor="let sort of sortList" role="menuitem">
+              <a (click)="sortingSelected(sort)" class="devui-dropdown-item">{{sort}} </a>
+            </li>
+            
+          </ul>
+        </div>
+      </section>
+
     </da-col-item>
     <da-col-item [daXs]="6" [daMm]="12">
 
@@ -24,7 +44,7 @@
       <section>
 
         <d-button id="primaryBtn" style="margin-right: 8px" (click)="applyFilter()">Apply Filter</d-button>
-        <d-button id="danger" style="margin-right: 8px" (click)="clearFilter()">Clear Filter</d-button>
+        <d-button id="danger" style="margin-right: 8px" (click)=" clearFilterAndSortAndSearch()">Clear All</d-button>
       </section>
     </da-col-item>
   </da-layout-row>

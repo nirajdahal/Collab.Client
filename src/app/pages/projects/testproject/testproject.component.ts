@@ -94,6 +94,14 @@ export class TestprojectComponent implements OnInit {
     
   }
 
+  //Sorting setup
+ sortList: any = ["NameAsc", "NameDesc", "DateAsc","DateDesc"]
+ selectedSortingType: string="Sort By:"
+ sortingSelected(sort : string){
+   this.selectedSortingType = sort;
+   this.ticketSpecParam.sort= sort;
+   this.settingTicket_OnSearch_Filter_Sort()
+ }
   // Filter Setup Starts
 
   tikcetTypeList: ITicketType[] = []
@@ -175,7 +183,7 @@ export class TestprojectComponent implements OnInit {
 
   }
 
-  clearFilter() {
+  clearFilterAndSortAndSearch() {
     this.ticketSpecParam = {
 
    
@@ -187,6 +195,8 @@ export class TestprojectComponent implements OnInit {
     this.settingTicket_OnSearch_Filter_Sort();
     this.selectTicketTypeName="";
     this.selectTicketPriorityName="";
+    this.selectedSortingType="Sort By:"
+    this.searchWord = "";
 
   }
 
